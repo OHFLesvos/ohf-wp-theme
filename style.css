@@ -117,3 +117,7 @@ p.has-background {
 .wp-block-group p.has-background + p.has-background {
     padding-top: 0;
 }
+
+.brand-img {
+    max-width: 200px;
+}

@@ -169,3 +169,8 @@ function ohfnext_add_gutenberg_assets() {
     // Load the theme styles within Gutenberg.
 	wp_enqueue_style( 'ohfnext-gutenberg', get_theme_file_uri( 'css/gutenberg-editor-style.css' ), false );
 }
+
+function ohfnext_customize_register( $wp_customize ) {
+    $wp_customize->remove_control('blogdescription');
+ }
+ add_action( 'customize_register', 'ohfnext_customize_register' );
