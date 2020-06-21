@@ -3,17 +3,18 @@ Theme Name: OHF Next
 Theme URI: https://github.com/OHFLesvos/wp-theme-ohf-next.git
 Author: Fanny Oppler, Nicolas Perrenoud
 Author URI: https://fannyoppler.ch/
-Description:
+Description: Template for OHF-Lesvos.org
 Version: 0.0.1
 Text Domain: ohfnext
 */
 
-/* @import 'css/mini-default.min.css'; */
 @import 'css/reset.css';
 @import 'css/variables.css';
+@import 'css/opensans.css';
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
 }
 
 p {
