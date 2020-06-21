@@ -4,7 +4,6 @@ function ohfnext_setup() {
     load_theme_textdomain( 'ohfnext', get_template_directory() . '/languages' );
 
     add_theme_support( 'title-tag' );
-    add_theme_support( 'automatic-feed-links' );
     // add_theme_support( 'post-thumbnails' );
     add_theme_support( 'html5', [ 'gallery', 'caption', 'style', 'script' ] );
     add_theme_support( 'align-wide' );
@@ -66,37 +65,6 @@ function ohfnext_setup() {
 add_action( 'wp_enqueue_scripts', 'ohfnext_load_scripts' );
 function ohfnext_load_scripts() {
     wp_enqueue_style( 'ohfnext-style', get_stylesheet_uri() );
-    wp_enqueue_script( 'jquery' );
-}
-
-add_action( 'wp_footer', 'ohfnext_footer_scripts' );
-function ohfnext_footer_scripts() {
-    ?>
-    <script>
-    jQuery(document).ready(function ($) {
-        var deviceAgent = navigator.userAgent.toLowerCase();
-        if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
-            $("html").addClass("ios");
-            $("html").addClass("mobile");
-        }
-        if (navigator.userAgent.search("MSIE") >= 0) {
-            $("html").addClass("ie");
-        }
-        else if (navigator.userAgent.search("Chrome") >= 0) {
-            $("html").addClass("chrome");
-        }
-        else if (navigator.userAgent.search("Firefox") >= 0) {
-            $("html").addClass("firefox");
-        }
-        else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
-            $("html").addClass("safari");
-        }
-        else if (navigator.userAgent.search("Opera") >= 0) {
-            $("html").addClass("opera");
-        }
-    });
-    </script>
-    <?php
 }
 
 add_filter( 'document_title_separator', 'ohfnext_document_title_separator' );
@@ -162,7 +130,6 @@ add_action( 'init', 'remove_block_style' );
 // }
 // add_action( 'enqueue_block_assets', 'ohfnext_stylesheet' );
 
-
 // Add backend styles for Gutenberg.
 add_action( 'enqueue_block_editor_assets', 'ohfnext_add_gutenberg_assets' );
 function ohfnext_add_gutenberg_assets() {
@@ -170,7 +137,21 @@ function ohfnext_add_gutenberg_assets() {
 	wp_enqueue_style( 'ohfnext-gutenberg', get_theme_file_uri( 'css/gutenberg-editor-style.css' ), false );
 }
 
+add_action( 'customize_register', 'ohfnext_customize_register' );
 function ohfnext_customize_register( $wp_customize ) {
     $wp_customize->remove_control('blogdescription');
- }
- add_action( 'customize_register', 'ohfnext_customize_register' );
+    $wp_customize->remove_control('site_icon');
+}
+
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+add_action('wp_head', 'ohfnext_add_favicon');
+function ohfnext_add_favicon() {
+    ?>
+        <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/img/favicon.png"/>
+        <link rel="apple-touch-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/img/apple-touch-icon.png">
+    <?php
+}

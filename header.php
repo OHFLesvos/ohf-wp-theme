@@ -10,7 +10,6 @@
             <header id="header">
                 <div id="branding">
                     <div id="site-title">
-                        <?php if ( is_front_page() || is_home() || is_front_page() && is_home() ) { echo '<h1>'; } ?>
                         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_html( get_bloginfo( 'name' ) ); ?>" rel="home">
                             <img src="<?= get_template_directory_uri() ?>/img/logo.png"
                                 alt="<?= esc_html( get_bloginfo( 'name' ) ) ?>"
@@ -18,7 +17,6 @@
                                 class="brand-img"
                             >
                         </a>
-                        <?php if ( is_front_page() || is_home() || is_front_page() && is_home() ) { echo '</h1>'; } ?>
                     </div>
                 </div>
                 <nav id="menu">
