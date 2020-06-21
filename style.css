@@ -110,6 +110,22 @@ h1, h2, h3 {
 	color: var(--color-red);
 }
 
+.has-white-background-color {
+	background-color: var(--color-white);
+}
+
+.has-white-color {
+	color: var(--color-white);
+}
+
+.has-black-background-color {
+	background-color: var(--color-black);
+}
+
+.has-black-color {
+	color: var(--color-black);
+}
+
 p.has-background {
     margin: 0 -9999rem;
     padding: 20px 9999rem;
@@ -119,6 +135,55 @@ p.has-background {
     padding-top: 0;
 }
 
+/* Site header */
+.site-header {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.site-title {
+    max-width: 400px;
+}
+
+/* Logo */
 .brand-img {
-    max-width: 200px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Navigation menu */
+nav .menu {
+    padding-top: 30px;
+    /* border: 1px solid red; */
+}
+
+nav .menu li {
+    display: inline-block;
+    /* border: 1px solid blue; */
+}
+
+nav .menu li a {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    /* font-size: 24px; */
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+nav .menu li a:hover {
+    background-color: var(--color-red);
+    color: #ffffff;
+}
+
+.site-footer {
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background:#eeeeee;
 }

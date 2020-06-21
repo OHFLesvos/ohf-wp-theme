@@ -53,6 +53,16 @@ function ohfnext_setup() {
 				'name'  => esc_html__( 'Red', 'ohfnext' ),
 				'slug'  => 'red',
 				'color' => '#ff1a30',
+            ],
+			[
+				'name'  => esc_html__( 'White', 'ohfnext' ),
+				'slug'  => 'white',
+				'color' => '#ffffff',
+            ],
+			[
+				'name'  => esc_html__( 'Black', 'ohfnext' ),
+				'slug'  => 'black',
+				'color' => '#000000',
 			],
 		]
     );
@@ -137,17 +147,20 @@ function ohfnext_add_gutenberg_assets() {
 	wp_enqueue_style( 'ohfnext-gutenberg', get_theme_file_uri( 'css/gutenberg-editor-style.css' ), false );
 }
 
+// Remove tag line and site icon in customizer
 add_action( 'customize_register', 'ohfnext_customize_register' );
 function ohfnext_customize_register( $wp_customize ) {
     $wp_customize->remove_control('blogdescription');
     $wp_customize->remove_control('site_icon');
 }
 
+// Remove emoji support
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
+// Define favicons
 add_action('wp_head', 'ohfnext_add_favicon');
 function ohfnext_add_favicon() {
     ?>
