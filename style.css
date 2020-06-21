@@ -26,6 +26,14 @@ h1, h2, h3 {
     /* padding-bottom: 0.3em; */
 }
 
+h2 {
+    font-size: 130%;
+}
+
+h3 {
+    font-size: 115%;
+}
+
 .container {
     max-width: 960px;
     margin: 0 auto;
@@ -126,14 +134,15 @@ h1, h2, h3 {
 	color: var(--color-black);
 }
 
+div.has-background,
 p.has-background {
-    margin: 0 -9999rem;
-    padding: 20px 9999rem;
+    margin: 40px -9999rem;
+    padding: 40px 9999rem;
 }
 
-.wp-block-group p.has-background + p.has-background {
+/* .wp-block-group p.has-background + p.has-background {
     padding-top: 0;
-}
+} */
 
 /* Site header */
 .site-header {
