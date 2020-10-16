@@ -2,8 +2,22 @@
 add_action( 'after_setup_theme', 'ohfnext_setup' );
 function ohfnext_setup() {
     load_theme_textdomain( 'ohfnext', get_template_directory() . '/languages' );
+	
+	
+	
+	// Add custom Java Script in footer
+	function ohfnext_load_scripts() {
+		wp_enqueue_style( 'ohfnext-style', get_stylesheet_uri() );		
+		wp_enqueue_script('ohfnext-script', get_template_directory_uri() . '/js/script.js','','1.0.0',true);
+		}
 
-    add_theme_support( 'title-tag' );
+	add_action( 'wp_enqueue_scripts', 'ohfnext_load_scripts' );
+
+
+
+
+	// 
+	add_theme_support( 'title-tag' );
     // add_theme_support( 'post-thumbnails' );
     add_theme_support( 'html5', [ 'gallery', 'caption', 'style', 'script' ] );
     add_theme_support( 'align-wide' );
@@ -72,10 +86,28 @@ function ohfnext_setup() {
 
 }
 
-add_action( 'wp_enqueue_scripts', 'ohfnext_load_scripts' );
-function ohfnext_load_scripts() {
-    wp_enqueue_style( 'ohfnext-style', get_stylesheet_uri() );
-}
+// Add color palette to ACF color picker
+function klf_acf_input_admin_footer() { ?>
+
+<script type="text/javascript">
+(function($) {
+
+acf.add_filter('color_picker_args', function( args, $field ){
+
+// add the hexadecimal codes here for the colors you want to appear as swatches
+args.palettes = ['#ffd100', '#00c399', '#ff1a30', '#5832ff', '#ffffff', '#000000' ]
+
+// return colors
+return args;
+
+});
+
+})(jQuery);
+</script>
+
+<?php }
+
+add_action('acf/input/admin_footer', 'klf_acf_input_admin_footer');
 
 add_filter( 'document_title_separator', 'ohfnext_document_title_separator' );
 function ohfnext_document_title_separator( $sep ) {
@@ -112,6 +144,8 @@ function ohfnext_image_insert_override( $sizes ) {
     unset( $sizes['medium_large'] );
     return $sizes;
 }
+
+
 
 // add_action( 'enqueue_block_editor_assets', 'ohfnext_enqueue' );
 // function ohfnext_enqueue() {
@@ -167,4 +201,148 @@ function ohfnext_add_favicon() {
         <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri();?>/img/favicon.png"/>
         <link rel="apple-touch-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/img/apple-touch-icon.png">
     <?php
+}
+
+// Add image sizes
+add_image_size( 'full-width', 3000, 2000, false ); 
+add_image_size( 'blog-overview', 700, 400, true );
+
+// Gutenberg ACF blocks
+add_action('acf/init', 'my_acf_init');
+function my_acf_init() {
+	
+	// check function exists
+	if( function_exists('acf_register_block') ) {
+		
+		// register bg_image_with_action_btn block
+		acf_register_block(array(
+			'name'				=> 'bg_image_with_action_btn',
+			'title'				=> __('Background image with action button'),
+			'description'		=> __(''),
+			'render_callback'	=> 'bg_image_with_action_btn_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'action button', 'background image' ),
+		));
+		
+		// register btn_group block
+		acf_register_block(array(
+			'name'				=> 'btn_group',
+			'title'				=> __('Set of colorful buttons'),
+			'description'		=> __(''),
+			'render_callback'	=> 'btn_group_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'action button', 'set' ),
+		));
+		
+		// register btn_group block
+		acf_register_block(array(
+			'name'				=> 'project_overview',
+			'title'				=> __('Project overview'),
+			'description'		=> __(''),
+			'render_callback'	=> 'project_overview_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'action button', 'set' ),
+		));
+		
+		// register btn block
+		acf_register_block(array(
+			'name'				=> 'btn',
+			'title'				=> __('Button'),
+			'description'		=> __(''),
+			'render_callback'	=> 'btn_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'action button' ),
+		));
+		
+		// register post_list block
+		acf_register_block(array(
+			'name'				=> 'post_list',
+			'title'				=> __('Post list'),
+			'description'		=> __(''),
+			'render_callback'	=> 'post_list_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'list' ),
+		));
+		
+		// register team_list block
+		acf_register_block(array(
+			'name'				=> 'team_list',
+			'title'				=> __('Team list'),
+			'description'		=> __(''),
+			'render_callback'	=> 'team_list_render_callback',
+			'category'			=> 'formatting',
+			'icon'				=> 'admin-comments',
+			'keywords'			=> array( 'list', 'team' ),
+		));
+		
+		
+		
+	}
+}
+
+function bg_image_with_action_btn_render_callback( $block ) {
+	
+	// convert name ("acf/testimonial") into path friendly slug ("testimonial")
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-bg_image_with_action_btn.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-bg_image_with_action_btn.php") );
+	}
+}
+
+function btn_group_render_callback( $block ) {
+	
+	// convert name ("acf/testimonial") into path friendly slug ("testimonial")
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-btn_group.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-btn_group.php") );
+	}
+}
+
+function project_overview_render_callback( $block ) {
+	
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-project_overview.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-project_overview.php") );
+	}
+}
+
+function btn_render_callback( $block ) {
+	
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-btn.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-btn.php") );
+	}
+}
+
+function post_list_render_callback( $block ) {
+	
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-post_list.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-post_list.php") );
+	}
+}
+
+function team_list_render_callback( $block ) {
+	
+	$slug = str_replace('acf/', '', $block['name']);
+	
+	// include a template part from within the "template-parts/block" folder
+	if( file_exists( get_theme_file_path("/template-parts/block/content-team_list.php") ) ) {
+		include( get_theme_file_path("/template-parts/block/content-team_list.php") );
+	}
 }
