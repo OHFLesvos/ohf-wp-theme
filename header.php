@@ -17,8 +17,21 @@
                         >
                     </a>
                 </div>
+				
+				<div class="burger">
+						<div></div>
+						<div></div>
+						<div></div>
+				</div>
+					
                 <nav id="menu">
+				
+					<div class="burger_close">
+						<div class="bar1"></div>
+						<div class="bar2"></div>
+					</div>
+					
                     <?php wp_nav_menu( array( 'theme_location' => 'main-menu' ) ); ?>
                 </nav>
             </header>
-            <div id="container" class="container">
+            <div id="outer_container" class="container">

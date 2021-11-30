@@ -1,3 +1,4 @@
+<?php /* Template Name: Category overview */ ?>
 <?php get_header(); ?>
 
 <main id="content">
@@ -15,12 +16,12 @@
 </div>
 
 <div class="btn_group">
-<a href="/<?php echo pll_current_language() ?>/blog">
+<a href="/<?php echo pll_current_language() ?>/blog" style="background-color:#5832ff !important; color:white !important;">
 			<span>
-				<?php esc_html_e( 'All', 'ohfnext' ); ?>
+				<?php esc_html_e( 'Latest', 'ohfnext' ); ?>
 			</span>
 </a>
-
+		
 		<?php 
 		$category = get_queried_object();
 		$current_category = $category->term_id;
@@ -53,14 +54,59 @@
 </header>
 
 <div class="flex-container" id="start_reading">
-	<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+
+
+
+<?php
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+
+$args = array(
+	'posts_per_page' => get_option('posts_per_page'),
+	'posts_per_page' => 50,
+	'paged' => $paged,
+	'post_type'=>'post', 
+	'post_status'=>'publish'
+);
+$custom_query = new WP_Query( $args );
+
+// Pagination fix
+$temp_query = $wp_query;
+$wp_query   = NULL;
+$wp_query   = $custom_query;
+?>
+ 
+ 
+
+<?php if ( $custom_query->have_posts() ) : ?>
+ 
+
+ 
+    <!-- the loop -->
+    <?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+        
+		<div class="flex-item half">
+			<?php get_template_part( 'entry' ); ?>
+		</div>	
+		
+		
+    <?php endwhile; ?>
+    <!-- end of the loop -->
+ 
+
+ 
+
+ 
+<?php else : ?>
+    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+<?php endif; ?>
+
+    <?php wp_reset_postdata(); ?>
 	
-	<div class="flex-item half">
-		<?php get_template_part( 'entry' ); ?>
-	</div>	
 	
-	<?php endwhile; endif; ?>
-	<?php get_template_part( 'nav', 'below' ); ?>
+<?php if (function_exists("pagination")) {
+ //pagination($custom_query->max_num_pages);
+} ?>
+
 </div>
 
 </main>
